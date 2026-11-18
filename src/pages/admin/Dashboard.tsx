@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { api, type Product, type SaleStats } from '../../lib/api';
 import { Package, Image as ImageIcon, Video, AlertCircle, DollarSign, ShoppingCart, TrendingUp, Calendar } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 function getAssetUrl(src: string): string {
   if (src.startsWith('/uploads/')) return `${API_URL}${src}`;
