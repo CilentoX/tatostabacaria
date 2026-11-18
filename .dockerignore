@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+server/node_modules/
+
+# Build output
+dist/
+server/dist/
+
+# Server files (not needed for frontend build)
+server/
+
+# Git
+.git/
+.gitignore
+
+# Environment and secrets
+.env
+*.db
+*.db-journal
+*.key
+*.pem
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs and uploads
+uploads/
+*.log
+
+# Codex and temp files
+.claude/
+.cto-toolkit/
+codex-test.txt
+_add_*.cjs
+_add_*.b64
+_fix_*.cjs
+_fix_*.b64
+_gen_*.sh
+_gen_*.b64
+dev.bat
