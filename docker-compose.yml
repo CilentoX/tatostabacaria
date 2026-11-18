@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tatos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tatos
+      POSTGRES_PASSWORD: tatos_secure_pass_2026
+      POSTGRES_DB: tatos
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tatos -d tatos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: tatos-server
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://tatos:tatos_secure_pass_2026@postgres:5432/tatos
+      JWT_SECRET: change-me-in-production-use-openssl-rand-hex-32
+      CORS_ORIGIN: https://tatostabacaria.shop,https://www.tatostabacaria.shop
+      PORT: 4000
+      HOST: 0.0.0.0
+    ports:
+      - "4000:4000"
+    volumes:
+      - uploads:/app/uploads
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: tatos-frontend
+    restart: unless-stopped
+    depends_on:
+      - server
+    environment:
+      VITE_API_URL: https://tatostabacaria.shop
+    ports:
+      - "3000:80"
+
+volumes:
+  pgdata:
+  uploads:

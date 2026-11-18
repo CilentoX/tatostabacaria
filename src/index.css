@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0a0a0a;
+  --color-foreground: #f5f5f5;
+  --color-card: #111111;
+  --color-card-foreground: #f5f5f5;
+  --color-primary: #c9a55a;
+  --color-primary-foreground: #0a0a0a;
+  --color-secondary: #1a1a1a;
+  --color-secondary-foreground: #f5f5f5;
+  --color-muted: #2a2a2a;
+  --color-muted-foreground: #888888;
+  --color-accent: #c9a55a;
+  --color-accent-foreground: #0a0a0a;
+  --color-border: #222222;
+  --color-input: #222222;
+  --color-ring: #c9a55a;
+  --color-whatsapp: #c9a55a;
+  --color-whatsapp-hover: #b8944a;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-display: 'Outfit', system-ui, sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-[family-name:var(--font-sans)] antialiased;
+  }
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}
+
+@layer utilities {
+  .text-gold {
+    color: var(--color-primary);
+  }
+
+  .bg-gold {
+    background-color: var(--color-primary);
+  }
+
+  .border-gold {
+    border-color: var(--color-primary);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 20px rgba(201, 165, 90, 0.35), 0 0 60px rgba(201, 165, 90, 0.12);
+  }
+
+  .glow-gold-text {
+    text-shadow: 0 0 20px rgba(201, 165, 90, 0.5), 0 0 40px rgba(201, 165, 90, 0.2);
+  }
+
+  .card-street {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .card-street:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 0 30px rgba(201, 165, 90, 0.1);
+    border-color: var(--color-primary);
+  }
+
+  .img-product {
+    transition: transform 0.4s ease;
+  }
+  .group:hover .img-product {
+    transform: scale(1.05);
+  }
+}
+
+/* Marquee animation for scrolling text */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+
+/* Smooth bounce for scroll indicator */
+@keyframes bounceSmooth {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.animate-bounce-smooth {
+  animation: bounceSmooth 2s ease-in-out infinite;
+}
+
+/* Floating bubble */
+@keyframes bubbleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bubble-float {
+  animation: bubbleFloat 3s ease-in-out infinite;
+}
+
+
+/* ── MegaHeader Cinematic Animations ── */
+
+/* Partículas douradas flutuando de baixo para cima */
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--particle-opacity, 0.3);
+  }
+  90% {
+    opacity: var(--particle-opacity, 0.3);
+  }
+  100% {
+    transform: translateY(-100vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+.animate-particle-float {
+  animation: particleFloat linear infinite;
+}
+
+/* Anel pulsante único atrás do logo */
+@keyframes ringPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.04;
+  }
+}
+
+.animate-ring-pulse {
+  animation: ringPulse 4s ease-in-out infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
+}
