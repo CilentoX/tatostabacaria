@@ -6,9 +6,6 @@ server/node_modules/
 dist/
 server/dist/
 
-# Server files (not needed for frontend build)
-server/
-
 # Git
 .git/
 .gitignore
