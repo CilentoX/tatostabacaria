@@ -28,8 +28,6 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://tatos:tatos_secure_pass_2026@postgres:5432/tatos
-      JWT_SECRET: ${JWT_SECRET}
-      CORS_ORIGIN: ${CORS_ORIGIN:-https://tatostabacaria.shop,https://www.tatostabacaria.shop}
       PORT: 4000
       HOST: 0.0.0.0
     volumes:
@@ -43,8 +41,6 @@ services:
     restart: unless-stopped
     depends_on:
       - server
-    environment:
-      VITE_API_URL: ${VITE_API_URL:-https://tatostabacaria.shop}
 
 volumes:
   pgdata:
