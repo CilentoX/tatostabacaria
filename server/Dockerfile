@@ -26,4 +26,4 @@ RUN mkdir -p /app/uploads
 
 EXPOSE 4000
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
+CMD ["sh", "-c", "DATABASE_URL=${DATABASE_URL:-postgresql://dummy:dummy@localhost:5432/dummy} npx prisma migrate deploy && node dist/index.js"]
