@@ -13,8 +13,6 @@ services:
       CORS_ORIGIN: ${CORS_ORIGIN:-https://tatostabacaria.shop,https://www.tatostabacaria.shop}
       PORT: 4000
       HOST: 0.0.0.0
-    ports:
-      - "4000:4000"
     volumes:
       - uploads:/app/uploads
 
@@ -28,8 +26,6 @@ services:
       - server
     environment:
       VITE_API_URL: ${VITE_API_URL:-https://tatostabacaria.shop}
-    ports:
-      - "3000:80"
 
 volumes:
   uploads:
