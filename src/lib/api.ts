@@ -67,7 +67,7 @@ class ApiClient {
 
   // Auth
   async login(email: string, password: string) {
-    const result = await this.request<{ token: string; user: User }>('/api/auth/login', {
+    const result = await this.request<{ token: string; user: User }>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
@@ -80,12 +80,12 @@ class ApiClient {
   }
 
   async getMe(): Promise<User> {
-    return this.request<User>('/api/auth/me');
+    return this.request<User>('/auth/me');
   }
 
   // Products
   async getProducts(): Promise<Product[]> {
-    return this.request<Product[]>('/api/products');
+    return this.request<Product[]>('/products');
   }
 
   async getAllProducts(params?: { cursor?: string; limit?: number; search?: string }): Promise<PaginatedResponse<Product>> {
@@ -94,31 +94,31 @@ class ApiClient {
     if (params?.limit) qs.set('limit', String(params.limit));
     if (params?.search) qs.set('search', params.search);
     const q = qs.toString();
-    return this.request<PaginatedResponse<Product>>(`/api/products/all${q ? '?' + q : ''}`);
+    return this.request<PaginatedResponse<Product>>(`/products/all${q ? '?' + q : ''}`);
   }
 
   async createProduct(data: FormData): Promise<Product> {
-    return this.request<Product>('/api/products', {
+    return this.request<Product>('/products', {
       method: 'POST',
       body: data,
     });
   }
 
   async updateProduct(id: number, data: Partial<Product>): Promise<Product> {
-    return this.request<Product>(`/api/products/${id}`, {
+    return this.request<Product>(`/products/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     });
   }
 
   async deleteProduct(id: number): Promise<void> {
-    return this.request<void>(`/api/products/${id}`, {
+    return this.request<void>(`/products/${id}`, {
       method: 'DELETE',
     });
   }
 
   async reorderProducts(order: number[]): Promise<void> {
-    return this.request<void>('/api/products/reorder', {
+    return this.request<void>('/products/reorder', {
       method: 'PUT',
       body: JSON.stringify({ order }),
     });
@@ -126,31 +126,31 @@ class ApiClient {
 
   // Users
   async getUsers(): Promise<User[]> {
-    return this.request<User[]>('/api/users');
+    return this.request<User[]>('/users');
   }
 
   async createUser(data: CreateUserInput): Promise<User> {
-    return this.request<User>('/api/users', {
+    return this.request<User>('/users', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   }
 
   async updateUser(id: string, data: UpdateUserInput): Promise<User> {
-    return this.request<User>(`/api/users/${id}`, {
+    return this.request<User>(`/users/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     });
   }
 
   async deleteUser(id: string): Promise<void> {
-    return this.request<void>(`/api/users/${id}`, {
+    return this.request<void>(`/users/${id}`, {
       method: 'DELETE',
     });
   }
 
   async changePassword(currentPassword: string, newPassword: string): Promise<void> {
-    return this.request<void>('/api/users/change-password', {
+    return this.request<void>('/users/change-password', {
       method: 'PATCH',
       body: JSON.stringify({ currentPassword, newPassword }),
     });
@@ -158,11 +158,11 @@ class ApiClient {
 
   // Settings
   async getSettings(): Promise<Settings> {
-    return this.request<Settings>('/api/settings');
+    return this.request<Settings>('/settings');
   }
 
   async updateSettings(data: Settings): Promise<void> {
-    return this.request<void>('/api/settings', {
+    return this.request<void>('/settings', {
       method: 'PUT',
       body: JSON.stringify(data),
     });
@@ -175,25 +175,25 @@ class ApiClient {
     if (params?.limit) qs.set('limit', String(params.limit));
     if (params?.search) qs.set('search', params.search);
     const q = qs.toString();
-    return this.request<PaginatedResponse<Customer>>(`/api/customers${q ? '?' + q : ''}`);
+    return this.request<PaginatedResponse<Customer>>(`/customers${q ? '?' + q : ''}`);
   }
 
   async createCustomer(data: Partial<Customer>): Promise<Customer> {
-    return this.request<Customer>('/api/customers', {
+    return this.request<Customer>('/customers', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   }
 
   async updateCustomer(id: string, data: Partial<Customer>): Promise<Customer> {
-    return this.request<Customer>(`/api/customers/${id}`, {
+    return this.request<Customer>(`/customers/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     });
   }
 
   async deleteCustomer(id: string): Promise<void> {
-    return this.request<void>(`/api/customers/${id}`, {
+    return this.request<void>(`/customers/${id}`, {
       method: 'DELETE',
     });
   }
@@ -201,29 +201,29 @@ class ApiClient {
   // Sales
   async getSales(params?: Record<string, string>): Promise<PaginatedResponse<Sale>> {
     const qs = params ? '?' + new URLSearchParams(params).toString() : '';
-    return this.request<PaginatedResponse<Sale>>(`/api/sales${qs}`);
+    return this.request<PaginatedResponse<Sale>>(`/sales${qs}`);
   }
 
   async createSale(data: CreateSaleInput): Promise<Sale> {
-    return this.request<Sale>('/api/sales', {
+    return this.request<Sale>('/sales', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   }
 
   async cancelSale(id: string): Promise<Sale> {
-    return this.request<Sale>(`/api/sales/${id}/cancel`, {
+    return this.request<Sale>(`/sales/${id}/cancel`, {
       method: 'PATCH',
     });
   }
 
  // Categories
  async getCategories(): Promise<Category[]> {
- return this.request<Category[]>('/api/categories');
+ return this.request<Category[]>('/categories');
  }
 
   async getSaleStats(): Promise<SaleStats> {
-    return this.request<SaleStats>('/api/sales/stats/summary');
+    return this.request<SaleStats>('/sales/stats/summary');
   }
 }
 
@@ -327,3 +327,4 @@ export interface PaginatedResponse<T> {
 
 export const api = new ApiClient();
 export { API_URL };
+
