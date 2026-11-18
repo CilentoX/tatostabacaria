@@ -1,47 +1,53 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: tatos-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: tatos
-      POSTGRES_PASSWORD: tatos_secure_pass_2026
-      POSTGRES_DB: tatos
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U tatos -d tatos"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+ postgres:
+ image: postgres:16-alpine
+ container_name: tatos-postgres
+ restart: unless-stopped
+ environment:
+ POSTGRES_USER: tatos
+ POSTGRES_PASSWORD: tatos_secure_pass_2026
+ POSTGRES_DB: tatos
+ volumes:
+ - pgdata:/var/lib/postgresql/data
+ healthcheck:
+ test: ["CMD-SHELL", "pg_isready -U tatos -d tatos"]
+ interval: 5s
+ timeout: 5s
+ retries: 5
 
-  server:
-    build:
-      context: .
-      dockerfile: server/Dockerfile
-    container_name: tatos-server
-    restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
-    environment:
-      DATABASE_URL: postgresql://tatos:tatos_secure_pass_2026@postgres:5432/tatos
-      PORT: 4000
-      HOST: 0.0.0.0
-    volumes:
-      - uploads:/app/uploads
+ server:
+ build:
+ context: .
+ dockerfile: server/Dockerfile
+ container_name: tatos-server
+ restart: unless-stopped
+ depends_on:
+ postgres:
+ condition: service_healthy
+ environment:
+ DATABASE_URL: postgresql://tatos:tatos_secure_pass_2026@postgres:5432/tatos
+ PORT: 4000
+ HOST: 0.0.0.0
+ volumes:
+ - uploads:/app/uploads
 
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    container_name: tatos-frontend
-    restart: unless-stopped
-    depends_on:
-      - server
+ frontend:
+ build:
+ context: .
+ dockerfile: Dockerfile.frontend
+ container_name: tatos-frontend
+ restart: unless-stopped
+ depends_on:
+ - server
+ labels:
+ - traefik.enable=true
+ - traefik.http.routers.tatos-frontend.rule=Host(`tatostabacaria.shop`) || Host(`www.tatostabacaria.shop`)
+ - traefik.http.routers.tatos-frontend.entrypoints=https
+ - traefik.http.routers.tatos-frontend.tls=true
+ - traefik.http.services.tatos-frontend.loadbalancer.server.port=80
 
 volumes:
-  pgdata:
-  uploads:
+ pgdata:
+ uploads:
