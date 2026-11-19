@@ -37,7 +37,7 @@ class ApiClient {
     }
 
     // Don't set Content-Type for FormData (multipart)
-    if (!(options.body instanceof FormData)) {
+    if (!(options.body instanceof FormData) && options.body !== undefined && options.body !== null) {
       headers['Content-Type'] = 'application/json';
     }
 
