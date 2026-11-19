@@ -45,6 +45,10 @@ const updateProductSchema = z.object({
 	type: z.enum(['image', 'video']).optional(),
 	sortOrder: z.coerce.number().int().min(0).optional(),
 	active: z.boolean().optional(),
+	price: z.coerce.number().min(0).optional().nullable(),
+	description: z.string().max(500).optional().nullable(),
+	stock: z.coerce.number().int().min(0).optional(),
+	categoryId: z.coerce.number().int().positive().optional().nullable(),
 });
 	// Listar todos os produtos (público)
 	app.get('/', async () => {
@@ -145,6 +149,14 @@ const updateProductSchema = z.object({
 			app.log.error(err);
 			return reply.code(500).send({ error: 'Erro ao criar produto' });
 		}
+	});
+
+	// Buscar produto por ID
+	app.get('/:id', async (request, reply) => {
+		const { id } = request.params as { id: string };
+		const product = await prisma.product.findUnique({ where: { id: parseInt(id, 10) } });
+		if (!product) return reply.code(404).send({ error: 'Produto nao encontrado' });
+		return product;
 	});
 
 	// Atualizar produto
