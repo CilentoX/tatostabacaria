@@ -5,7 +5,7 @@ import { Package, Image as ImageIcon, Video, AlertCircle, DollarSign, ShoppingCa
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 function getAssetUrl(src: string): string {
-  if (src.startsWith('/uploads/')) return `${API_URL}${src}`;
+  if (src.startsWith('/uploads/')) return src;
   return src;
 }
 
@@ -141,3 +141,4 @@ export function AdminDashboard() {
     </div>
   );
 }
+

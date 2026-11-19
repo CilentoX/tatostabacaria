@@ -7,11 +7,9 @@ const INSTAGRAM_URL = 'https://ig.me/m/tato.tabacaria_';
 
 
 function getAssetUrl(src: string): string {
- if (src.startsWith('/uploads/')) {
- const API_URL = import.meta.env.VITE_API_URL || '/api';
- return `${API_URL}${src}`;
- }
- return src;
+  if (src.startsWith('/uploads/')) return src;
+  return src;
+}
 }
 
 export function Catalog() {
@@ -320,3 +318,4 @@ export function Catalog() {
  </section>
  );
 }
+
