@@ -18,7 +18,6 @@ import { toast } from 'sonner';
 import { Plus, Trash2, Upload, Image as ImageIcon, AlertCircle, Check, GripVertical, Edit3, X, Save } from 'lucide-react';
 import { Pagination } from '../../components/Pagination';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 function getAssetUrl(src: string): string {
   if (src.startsWith('/uploads/')) return src;
