@@ -24,7 +24,6 @@ function getAssetUrl(src: string): string {
   if (src.startsWith('/uploads/')) return src;
   return src;
 }
-}
 
 
 function SortableProduct({ product, onToggle, onDelete, onEdit, onStockChange }: { product: Product; onToggle: (p: Product) => void; onDelete: (id: number, name: string) => void; onEdit: (p: Product) => void; onStockChange: (p: Product, stock: number) => void }) {

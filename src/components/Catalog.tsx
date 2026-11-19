@@ -10,7 +10,6 @@ function getAssetUrl(src: string): string {
   if (src.startsWith('/uploads/')) return src;
   return src;
 }
-}
 
 export function Catalog() {
  const [products, setProducts] = useState<Product[]>([]);
