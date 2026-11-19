@@ -16,12 +16,40 @@ const updateCustomerSchema = createCustomerSchema.partial();
 export const customerRoutes: FastifyPluginAsync = async (app) => {
 	app.addHook('preHandler', authenticate);
 
-	// Listar todos os clientes
-	app.get('/', async () => {
-		return prisma.customer.findMany({
+	// Listar todos os clientes (com paginacao cursor-based)
+	app.get('/', async (request) => {
+		const { cursor, limit, search } = request.query as {
+			cursor?: string;
+			limit?: string;
+			search?: string;
+		};
+
+		const take = Math.min(Math.max(parseInt(limit || '20', 10), 1), 100);
+
+		const where: Record<string, unknown> = {};
+		if (search && search.trim()) {
+			where.OR = [
+				{ name: { contains: search.trim() } },
+				{ instagram: { contains: search.trim() } },
+				{ phone: { contains: search.trim() } },
+			];
+		}
+
+		const customers = await prisma.customer.findMany({
+			where,
 			orderBy: { updatedAt: 'desc' },
+			take: take + 1,
+			...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
 			include: { _count: { select: { sales: true } } },
 		});
+
+		let nextCursor: string | null = null;
+		if (customers.length > take) {
+			const nextItem = customers.pop();
+			nextCursor = nextItem!.id;
+		}
+
+		return { items: customers, nextCursor };
 	});
 
 	// Buscar cliente por ID
